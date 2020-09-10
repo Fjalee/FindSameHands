@@ -12,30 +12,48 @@ game := {}
 ;input so that can input from folders a and b
 
 \::
-    times := 0
-    createInputFolderIfNotExists(inputFolder)
+    timesA := 0
+    timesB := 0
+    createInputFoldersIfNotExists(inputFolder)
 
     MsgBox, After pressing OK the conversion will begin...
-    Loop Files, %inputFolder%\*.txt
+    Loop Files, %inputFolder%\a\*.txt
     {
-        times++
+        
+        timesA++
 
         fileDir = %inputFolder%\%A_LoopFileName%
         inputString := input(fileDir)
     }
-    MsgBox, read %times% files in`n%inputFolder%`ncreated 
+    Loop Files, %inputFolder%\b\*.txt
+    {
+        timesB++
+
+        fileDir = %inputFolder%\%A_LoopFileName%
+        inputString := input(fileDir)
+    }
+    MsgBox, read %timesA% files in%inputFolder%\a`nread %timesB% files in %inputFolder%\b`ncreated 
+
 return
 
 ESC::
 	ExitApp
 return
 
-createInputFolderIfNotExists(fileDir){
+createInputFoldersIfNotExists(fileDir){
     if !FileExist(fileDir){
         FileCreateDir, %fileDir%
-        MsgBox, created directory %fileDir%`n`nEXITING SCRIPT
+        FileCreateDir, %fileDir%\a
+        FileCreateDir, %fileDir%\b
+        MsgBox, created directory %fileDir%`n and folders a and b in the directory`nEXITING SCRIPT
+
         ExitApp
     }
+}
+
+input(fileDir){
+    FileRead, inputString, %fileDir%
+    return inputString
 }
 
 
