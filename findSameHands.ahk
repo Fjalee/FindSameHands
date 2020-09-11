@@ -8,8 +8,8 @@ inputFolder := "C:\findSameHandsInput"
 hand_a := {}, hand_a.fullString := [], hand_a.ID := []
 hand_b := {}, hand_b.fullString := [], hand_b.ID := []
 amountOfSymBeforeID := 11, IDLen := 12
-hand_a1 := [], hand_a2 := []
-hand_b1 := [], hand_b2 := [], hand_b2test := []
+hand_a1 := [], hand_a2 := [], hand_a1_2 := []
+hand_b1 := [], hand_b2 := [], hand_b1_2 := []
 
 \::
     timesA := 0
@@ -39,8 +39,10 @@ hand_b1 := [], hand_b2 := [], hand_b2test := []
 
     a1String := createStringFromArray(hand_a1)
     a2String := createStringFromArray(hand_a2)
-    b1String := createStringFromArray(hand_b1)
+    b1String := createStringFromArray(hand_b1_2)
     b2String := createStringFromArray(hand_b2)
+    b1StringTest := createStringFromArray(hand_b1)
+    a1StringTest := createStringFromArray(hand_a1_2)
 
     createNewFiles(a1String, a2String, b1String, b2String)
 
@@ -52,10 +54,14 @@ hand_b1 := [], hand_b2 := [], hand_b2test := []
 
     nmA1Hands := hand_a1.Length()
     nmA2Hands := hand_a2.Length()
-    nmB1Hands := hand_b1.Length()
+    nmB1Hands := hand_b1_2.Length()
     nmB2Hands := hand_b2.Length()
+    nmB1TestHands := hand_b1.Length()
+    nmA1TestHands := hand_a1_2.Length()
     if (nmA1Hands != nmB1Hands)
         MsgBox, WARNING amonut of hands in a1 isnt the same as b1.`nClick OK to continue...
+    else if (nmA1Hands != nmB1TestHands || nmA1Hands != nmA1TestHands || nmA1TestHands != nmB1TestHands)
+        MsgBox, Error nmA1Hands != nmB1TestHands || nmA1Hands != nmA1TestHands || nmA1TestHands != nmB1TestHands
 
     MsgBox, read %timesA% files in%inputFolder%\a`nread %timesB% files in %inputFolder%\b`n`ncreated files:`n%dir_a1% - %nmA1Hands%`n%dir_a2% - %nmA2Hands%`n%dir_b1% - %nmB1Hands%`n%dir_b2% - %nmB2Hands%
 return
@@ -146,9 +152,10 @@ separateID(hand){
 
 putSameHandsAndDifHandsInSepArrays(hand1, hand2){
     global hand_a, hand_b, 
-    global hand_a1, hand_a, hand_b1, hand_b2, hand_b2test
+    global hand_a1, hand_a, hand_b1, hand_b2, hand_a1_2, hand_b1_2
     array_a1 = %hand1%1
     array_a2 = %hand1%2
+    array_2 = %hand2%1_2
 
     for i, element_i in %hand1%.ID{
         broke := 0
@@ -161,6 +168,7 @@ putSameHandsAndDifHandsInSepArrays(hand1, hand2){
         }
         if (broke){
             %array_a1%.Push(%hand1%.fullString[i])
+            %array_2%.Push(%hand2%.fullString[j])
         }
         else
             %array_a2%.Push(%hand1%.fullString[i])
