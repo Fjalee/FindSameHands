@@ -8,6 +8,8 @@ inputFolder := "C:\findSameHandsInput"
 hand_a := {}, hand_a.fullString := [], hand_a.ID := []
 hand_b := {}, hand_b.fullString := [], hand_b.ID := []
 amountOfSymBeforeID := 11, IDLen := 12
+hand_a1 := [], hand_a2 := []
+hand_b1 := [], hand_b2 := []
 
 ;fix 
 ;final message
@@ -35,8 +37,18 @@ amountOfSymBeforeID := 11, IDLen := 12
     separateID("hand_a")
     separateID("hand_b")
 
-    MsgBox, read %timesA% files in%inputFolder%\a`nread %timesB% files in %inputFolder%\b`ncreated 
+    putSameHandsAndDifHandsInSepArrays("hand_a", "hand_b")
+    putSameHandsAndDifHandsInSepArrays("hand_b", "hand_a")
 
+    a1String := 1
+    a2String := 2
+    b1String := 3
+    b2String := 4
+
+    createNewFiles(a1String, a2String, b1String, b2String)
+
+
+    MsgBox, read %timesA% files in%inputFolder%\a`nread %timesB% files in %inputFolder%\b`ncreated 
 return
 
 ESC::
@@ -123,16 +135,56 @@ separateID(hand){
     }
 }
 
+putSameHandsAndDifHandsInSepArrays(hand1, hand2){
+    global hand_a, hand_b, 
+    global hand_a1, hand_a, hand_b1, hand_b2
+    array1 = %hand1%1
+    array2 = %hand1%2
 
+    for i, element_i in %hand1%.ID{
+        broke := 0
 
+        for j, element_j in %hand2%.ID{
+            if (element_i = element_j){
+                broke := 1
+                break
+            }
+        }
+        if (broke)
+            %array1%.Push(%hand1%.fullString[i])
+        else
+            %array2%.Push(%hand1%.fullString[i])
+    }
 
-
-
-
-
-;fixxx
-rewriteFile(fileDir, newText){
-    FileDelete, %fileDir%
-    FileAppend, %newText%, %fileDir%
+    totalGames := %hand1%.fullString.Length()
+    sumLengthArray1Array2 := %array1%.Length() + %array2%.Length()
+    if (sumLengthArray1Array2 != totalGames)
+        MsgBox, putSameHandsAndDifHandsInSepArrays func
 }
 
+createNewFiles(a1String, a2String, b1String, b2String){
+    global inputFolder
+
+    dir_a1 = %inputFolder%\a1.txt
+    dir_a2 = %inputFolder%\a2.txt
+    dir_b1 = %inputFolder%\b1.txt
+    dir_b2 = %inputFolder%\b2.txt
+    
+    errorMsg := 0
+    if FileExist(dir_a1)
+        errorMsg := 1
+    if FileExist(dir_a2)
+        errorMsg := 1
+    if FileExist(dir_b1)
+        errorMsg := 1
+    if FileExist(dir_b2)
+        errorMsg := 1
+    
+    if (errorMsg)
+        MsgBox, ERROR, remove files`n%dir_a1%`n%dir_a2%`n%dir_b1%`n%dir_b2%
+
+    FileAppend, %a1String%, %dir_a1%
+    FileAppend, %a2String%, %dir_a2%
+    FileAppend, %b1String%, %dir_b1%
+    FileAppend, %b2String%, %dir_b2%
+}
