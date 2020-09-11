@@ -15,6 +15,7 @@ hand_b1 := [], hand_b2 := [], hand_b2test := []
     timesA := 0
     timesB := 0
     createInputFoldersIfNotExists(inputFolder)
+    deleteFilesWarning()
 
     MsgBox, After pressing OK the conversion will begin...
     Loop Files, %inputFolder%\a\*.txt
@@ -53,9 +54,9 @@ hand_b1 := [], hand_b2 := [], hand_b2test := []
     nmA2Hands := hand_a2.Length()
     nmB1Hands := hand_b1.Length()
     nmB2Hands := hand_b2.Length()
-    if (nmA2Hands != nmB2Hands)
-        MsgBox, WARNING amonut of hands in a2 isnt the same as b2.`nClick OK to continue...
-        
+    if (nmA1Hands != nmB1Hands)
+        MsgBox, WARNING amonut of hands in a1 isnt the same as b1.`nClick OK to continue...
+
     MsgBox, read %timesA% files in%inputFolder%\a`nread %timesB% files in %inputFolder%\b`n`ncreated files:`n%dir_a1% - %nmA1Hands%`n%dir_a2% - %nmA2Hands%`n%dir_b1% - %nmB1Hands%`n%dir_b2% - %nmB2Hands%
 return
 
@@ -178,6 +179,21 @@ createNewFiles(a1String, a2String, b1String, b2String){
     dir_a2 = %inputFolder%\a2.txt
     dir_b1 = %inputFolder%\b1.txt
     dir_b2 = %inputFolder%\b2.txt
+
+    deleteFilesWarning()
+
+    FileAppend, %a1String%, %dir_a1%
+    FileAppend, %a2String%, %dir_a2%
+    FileAppend, %b1String%, %dir_b1%
+    FileAppend, %b2String%, %dir_b2%
+}
+deleteFilesWarning(){
+    global inputFolder
+
+    dir_a1 = %inputFolder%\a1.txt
+    dir_a2 = %inputFolder%\a2.txt
+    dir_b1 = %inputFolder%\b1.txt
+    dir_b2 = %inputFolder%\b2.txt
     
     errorMsg := 0
     if FileExist(dir_a1)
@@ -191,11 +207,6 @@ createNewFiles(a1String, a2String, b1String, b2String){
     
     if (errorMsg)
         MsgBox, ERROR, remove files`n%dir_a1%`n%dir_a2%`n%dir_b1%`n%dir_b2%
-
-    FileAppend, %a1String%, %dir_a1%
-    FileAppend, %a2String%, %dir_a2%
-    FileAppend, %b1String%, %dir_b1%
-    FileAppend, %b2String%, %dir_b2%
 }
 
 createStringFromArray(array){
