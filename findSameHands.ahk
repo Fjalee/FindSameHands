@@ -9,11 +9,7 @@ hand_a := {}, hand_a.fullString := [], hand_a.ID := []
 hand_b := {}, hand_b.fullString := [], hand_b.ID := []
 amountOfSymBeforeID := 11, IDLen := 12
 hand_a1 := [], hand_a2 := []
-hand_b1 := [], hand_b2 := []
-
-;fix 
-;final message
-;input so that can input from folders a and b
+hand_b1 := [], hand_b2 := [], hand_b2test := []
 
 \::
     timesA := 0
@@ -40,15 +36,24 @@ hand_b1 := [], hand_b2 := []
     putSameHandsAndDifHandsInSepArrays("hand_a", "hand_b")
     putSameHandsAndDifHandsInSepArrays("hand_b", "hand_a")
 
-    a1String := 1
-    a2String := 2
-    b1String := 3
-    b2String := 4
+    a1String := createStringFromArray(hand_a1)
+    a2String := createStringFromArray(hand_a2)
+    b1String := createStringFromArray(hand_b1)
+    b2String := createStringFromArray(hand_b2)
 
     createNewFiles(a1String, a2String, b1String, b2String)
 
 
-    MsgBox, read %timesA% files in%inputFolder%\a`nread %timesB% files in %inputFolder%\b`ncreated 
+    dir_a1 = %inputFolder%\a1.txt
+    dir_a2 = %inputFolder%\a2.txt
+    dir_b1 = %inputFolder%\b1.txt
+    dir_b2 = %inputFolder%\b2.txt
+
+    nmA1Hands := hand_a1.Length()
+    nmA2Hands := hand_a2.Length()
+    nmB1Hands := hand_b1.Length()
+    nmB2Hands := hand_b2.Length()
+    MsgBox, read %timesA% files in%inputFolder%\a`nread %timesB% files in %inputFolder%\b`n`ncreated files:`n%dir_a1% - %nmA1Hands%`n%dir_a2% - %nmA2Hands%`n%dir_b1% - %nmB1Hands%`n%dir_b2% - %nmB2Hands%
 return
 
 ESC::
@@ -137,9 +142,9 @@ separateID(hand){
 
 putSameHandsAndDifHandsInSepArrays(hand1, hand2){
     global hand_a, hand_b, 
-    global hand_a1, hand_a, hand_b1, hand_b2
-    array1 = %hand1%1
-    array2 = %hand1%2
+    global hand_a1, hand_a, hand_b1, hand_b2, hand_b2test
+    array_a1 = %hand1%1
+    array_a2 = %hand1%2
 
     for i, element_i in %hand1%.ID{
         broke := 0
@@ -150,14 +155,15 @@ putSameHandsAndDifHandsInSepArrays(hand1, hand2){
                 break
             }
         }
-        if (broke)
-            %array1%.Push(%hand1%.fullString[i])
+        if (broke){
+            %array_a1%.Push(%hand1%.fullString[i])
+        }
         else
-            %array2%.Push(%hand1%.fullString[i])
+            %array_a2%.Push(%hand1%.fullString[i])
     }
 
     totalGames := %hand1%.fullString.Length()
-    sumLengthArray1Array2 := %array1%.Length() + %array2%.Length()
+    sumLengthArray1Array2 := %array_a1%.Length() + %array_a2%.Length()
     if (sumLengthArray1Array2 != totalGames)
         MsgBox, putSameHandsAndDifHandsInSepArrays func
 }
@@ -187,4 +193,13 @@ createNewFiles(a1String, a2String, b1String, b2String){
     FileAppend, %a2String%, %dir_a2%
     FileAppend, %b1String%, %dir_b1%
     FileAppend, %b2String%, %dir_b2%
+}
+
+createStringFromArray(array){
+    string := ""
+    for i, element in array{
+        string = %string%`n`n`n%element%
+    }
+    string := SubStr(string, 4)
+    return string
 }
