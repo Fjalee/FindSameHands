@@ -53,6 +53,9 @@ hand_b1 := [], hand_b2 := [], hand_b2test := []
     nmA2Hands := hand_a2.Length()
     nmB1Hands := hand_b1.Length()
     nmB2Hands := hand_b2.Length()
+    if (nmA2Hands != nmB2Hands)
+        MsgBox, WARNING amonut of hands in a2 isnt the same as b2.`nClick OK to continue...
+        
     MsgBox, read %timesA% files in%inputFolder%\a`nread %timesB% files in %inputFolder%\b`n`ncreated files:`n%dir_a1% - %nmA1Hands%`n%dir_a2% - %nmA2Hands%`n%dir_b1% - %nmB1Hands%`n%dir_b2% - %nmB2Hands%
 return
 
