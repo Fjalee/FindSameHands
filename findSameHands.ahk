@@ -5,7 +5,7 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 #SingleInstance Force
 
 inputFolder := "C:\findSameHandsInput"
-game := {}
+hand := []
 
 ;fix 
 ;final message
@@ -18,18 +18,17 @@ game := {}
 
     MsgBox, After pressing OK the conversion will begin...
     Loop Files, %inputFolder%\a\*.txt
-    {
-        
+    { 
         timesA++
 
-        fileDir = %inputFolder%\%A_LoopFileName%
+        fileDir = %inputFolder%\a\%A_LoopFileName%
         inputString := input(fileDir)
     }
     Loop Files, %inputFolder%\b\*.txt
     {
         timesB++
 
-        fileDir = %inputFolder%\%A_LoopFileName%
+        fileDir = %inputFolder%\b\%A_LoopFileName%
         inputString := input(fileDir)
     }
     MsgBox, read %timesA% files in%inputFolder%\a`nread %timesB% files in %inputFolder%\b`ncreated 
