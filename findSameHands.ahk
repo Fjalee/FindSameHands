@@ -5,8 +5,9 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 #SingleInstance Force
 
 inputFolder := "C:\findSameHandsInput"
-hand_a := {}, hand_a.fullString := [], hand_a.handID := []
-hand_b := {}, hand_b.fullString := [], hand_b.handID := []
+hand_a := {}, hand_a.fullString := [], hand_a.ID := []
+hand_b := {}, hand_b.fullString := [], hand_b.ID := []
+amountOfSymBeforeID := 11, IDLen := 12
 
 ;fix 
 ;final message
@@ -31,9 +32,8 @@ hand_b := {}, hand_b.fullString := [], hand_b.handID := []
         tempFunc("b", A_LoopFileName)
     }
 
-    ;fix temp msg
-    temp := hand_a[5]
-    MsgBox, 
+    separateID("hand_a")
+    separateID("hand_b")
 
     MsgBox, read %timesA% files in%inputFolder%\a`nread %timesB% files in %inputFolder%\b`ncreated 
 
@@ -106,6 +106,20 @@ splitTextIntoObjects(inputString, newLineKind, objectName){
     if (gamesFullStringsArray.Length() < 1){
         MsgBox, Error func splitTextIntoObjects, no double newline found`nEXITING SCRIPT
         ExitApp
+    }
+}
+
+separateID(hand){
+    global hand_a, hand_b, amountOfSymBeforeID, IDLen
+    
+    for i, element in %hand%.fullString{
+        ID := SubStr(element, amountOfSymBeforeID+1, IDLen)
+        %hand%.ID.Push(ID)
+
+        SymBefore := SubStr(element, amountOfSymBeforeID, 1)
+        SymAfter := SubStr(element, amountOfSymBeforeID+amountOfSymBeforeID+2, 1)
+        if (SymBefore != " " || SymAfter != ":")
+            MsgBox, Error separateID()
     }
 }
 
