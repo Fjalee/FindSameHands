@@ -21,15 +21,13 @@ hand := []
     { 
         timesA++
 
-        fileDir = %inputFolder%\a\%A_LoopFileName%
-        inputString := input(fileDir)
+        tempFunc("a", A_LoopFileName)
     }
     Loop Files, %inputFolder%\b\*.txt
     {
         timesB++
 
-        fileDir = %inputFolder%\b\%A_LoopFileName%
-        inputString := input(fileDir)
+        tempFunc("b", A_LoopFileName)
     }
     MsgBox, read %timesA% files in%inputFolder%\a`nread %timesB% files in %inputFolder%\b`ncreated 
 
@@ -53,6 +51,13 @@ createInputFoldersIfNotExists(fileDir){
 input(fileDir){
     FileRead, inputString, %fileDir%
     return inputString
+}
+
+tempFunc(a_or_b, loopFileName){
+    global inputFolder
+    fileDir = %inputFolder%\%a_or_b%\%loopFileName%
+    inputString := input(fileDir)
+    MsgBox, % inputString
 }
 
 
