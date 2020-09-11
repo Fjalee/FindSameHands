@@ -23,13 +23,13 @@ amountOfSymBeforeID := 11, IDLen := 12
     { 
         timesA++
 
-        tempFunc("a", A_LoopFileName)
+        mainForA_or_B("a", A_LoopFileName)
     }
     Loop Files, %inputFolder%\b\*.txt
     {
         timesB++
 
-        tempFunc("b", A_LoopFileName)
+        mainForA_or_B("b", A_LoopFileName)
     }
 
     separateID("hand_a")
@@ -59,7 +59,7 @@ input(fileDir){
     return inputString
 }
 
-tempFunc(a_or_b, loopFileName){
+mainForA_or_B(a_or_b, loopFileName){
     global inputFolder
     if (a_or_b = "a")
         hand := "hand_a"
