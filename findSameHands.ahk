@@ -235,16 +235,18 @@ testFunc(){
     global hand_aTest, hand_bTest, hand_a, hand_b
     testArray := {}
 
+    hand_a[i].fullString
+
     for i, element in hand_a.ID{
         idNumbers := SubStr(element, 4)
-        hand_aTest[idNumbers] := hand_a[i].fullString
-        if (hand_a[i].fullString = "")
+        hand_aTest[idNumbers] := hand_a.fullString[i]
+        if (hand_a.fullString[i] = "")
             MsgBox, Error1 func testFunc
     }
     for i, element in hand_b.ID{
         idNumbers := SubStr(element, 4)
-        hand_bTest[idNumbers] := hand_b[i].fullString
-        if (hand_b[i].fullString = "")
+        hand_bTest[idNumbers] := hand_b.fullString[i]
+        if (hand_b.fullString[i] = "")
             MsgBox, Error2 func testFunc
     }
 }
