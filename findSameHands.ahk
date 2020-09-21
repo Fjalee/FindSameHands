@@ -7,6 +7,7 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 inputFolder := "C:\findSameHandsInput"
 hand_a := {}, hand_a.fullString := [], hand_a.ID := []
 hand_b := {}, hand_b.fullString := [], hand_b.ID := []
+hand_aTest := {}, hand bTest := {}
 amountOfSymBeforeID := 11, IDLen := 12
 hand_a1 := [], hand_a2 := [], hand_a1_2 := []
 hand_b1 := [], hand_b2 := [], hand_b1_2 := []
@@ -33,6 +34,8 @@ hand_b1 := [], hand_b2 := [], hand_b1_2 := []
 
     separateID("hand_a")
     separateID("hand_b")
+
+    testFunc()
 
     putSameHandsAndDifHandsInSepArrays("hand_a", "hand_b")
     putSameHandsAndDifHandsInSepArrays("hand_b", "hand_a")
@@ -174,6 +177,8 @@ putSameHandsAndDifHandsInSepArrays(hand1, hand2){
             %array_a2%.Push(%hand1%.fullString[i])
     }
 
+    
+
     totalGames := %hand1%.fullString.Length()
     sumLengthArray1Array2 := %array_a1%.Length() + %array_a2%.Length()
     if (sumLengthArray1Array2 != totalGames)
@@ -224,4 +229,22 @@ createStringFromArray(array){
     }
     string := SubStr(string, 4)
     return string
+}
+
+testFunc(){
+    global hand_aTest, hand_bTest, hand_a, hand_b
+    testArray := {}
+
+    for i, element in hand_a.ID{
+        idNumbers := SubStr(element, 4)
+        hand_aTest[idNumbers] := hand_a[i].fullString
+        if (hand_a[i].fullString = "")
+            MsgBox, Error1 func testFunc
+    }
+    for i, element in hand_b.ID{
+        idNumbers := SubStr(element, 4)
+        hand_bTest[idNumbers] := hand_b[i].fullString
+        if (hand_b[i].fullString = "")
+            MsgBox, Error2 func testFunc
+    }
 }
