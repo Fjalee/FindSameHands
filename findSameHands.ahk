@@ -45,7 +45,7 @@ hand_a1_string := [], hand_a2_string := [], hand_b1_2_string := [], hand_b2_stri
     createStringFromArray("hand_b1", hand_b1)
     createStringFromArray("hand_a1_2", hand_a1_2)
 
-    createNewFiles(a1String, a2String, b1String, b2String)
+    createNewFiles()
 
 
     dir_a1 = %inputFolder%\a1.txt
@@ -152,7 +152,6 @@ separateID(hand){
 }
 
 putSameHandsAndDifHandsInSepArrays(hand1, hand2){
-    global hand_a, hand_b, 
     global hand_a1, hand_a, hand_b1, hand_b2, hand_a1_2, hand_b1_2
     array_a1 = %hand1%1
     array_a2 = %hand1%2
@@ -181,8 +180,8 @@ putSameHandsAndDifHandsInSepArrays(hand1, hand2){
         MsgBox, putSameHandsAndDifHandsInSepArrays func
 }
 
-createNewFiles(a1String, a2String, b1String, b2String){
-    global inputFolder
+createNewFiles(){
+    global hand_a1_string, hand_a2_string, hand_b1_2_string, hand_b2_string, inputFolder
 
     dir_a1 = %inputFolder%\a1.txt
     dir_a2 = %inputFolder%\a2.txt
@@ -191,11 +190,21 @@ createNewFiles(a1String, a2String, b1String, b2String){
 
     deleteFilesWarning()
 
-    FileAppend, %a1String%, %dir_a1%
-    FileAppend, %a2String%, %dir_a2%
-    FileAppend, %b1String%, %dir_b1%
-    FileAppend, %b2String%, %dir_b2%
+    appendArrayToFile(hand_a1_string, dir_a1)
+    appendArrayToFile(hand_a2_string, dir_a2)
+    appendArrayToFile(hand_b1_2_string, dir_b1)
+    appendArrayToFile(hand_b2_string, dir_b2)
 }
+appendArrayToFile(array, dir){
+
+    length := array.Length()
+    for i, element in array{
+        FileAppend, %element%, %dir%
+        if (length != i)
+            FileAppend, "`n`n`n", %dir%
+    }
+}
+
 deleteFilesWarning(){
     global inputFolder
 
@@ -219,6 +228,8 @@ deleteFilesWarning(){
 }
 
 createStringFromArray(arrayName, array){
+    array := [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]
+
     stringArrayName = %arrayName%_string
     %stringArrayName% := []
 
