@@ -10,6 +10,7 @@ hand_b := {}, hand_b.fullString := [], hand_b.ID := []
 amountOfSymBeforeID := 11, IDLen := 12
 hand_a1 := [], hand_a2 := [], hand_a1_2 := []
 hand_b1 := [], hand_b2 := [], hand_b1_2 := []
+hand_a1_string := [], hand_a2_string := [], hand_b1_2_string := [], hand_b2_string := [], hand_b1_string := [], hand_a1_2_string := []
 
 \::
     timesA := 0
@@ -36,13 +37,13 @@ hand_b1 := [], hand_b2 := [], hand_b1_2 := []
 
     putSameHandsAndDifHandsInSepArrays("hand_a", "hand_b")
     putSameHandsAndDifHandsInSepArrays("hand_b", "hand_a")
-
-    a1String := createStringFromArray(hand_a1)
-    a2String := createStringFromArray(hand_a2)
-    b1String := createStringFromArray(hand_b1_2)
-    b2String := createStringFromArray(hand_b2)
-    b1StringTest := createStringFromArray(hand_b1)
-    a1StringTest := createStringFromArray(hand_a1_2)
+    
+    createStringFromArray("hand_a1", hand_a1)
+    createStringFromArray("hand_a2", hand_a2)
+    createStringFromArray("hand_b1_2", hand_b1_2)
+    createStringFromArray("hand_b2", hand_b2)
+    createStringFromArray("hand_b1", hand_b1)
+    createStringFromArray("hand_a1_2", hand_a1_2)
 
     createNewFiles(a1String, a2String, b1String, b2String)
 
@@ -217,11 +218,28 @@ deleteFilesWarning(){
         MsgBox, ERROR, remove files`n%dir_a1%`n%dir_a2%`n%dir_b1%`n%dir_b2%
 }
 
-createStringFromArray(array){
+createStringFromArray(arrayName, array){
+    stringArrayName = %arrayName%_string
+    %stringArrayName% := []
+
     string := ""
-    for i, element in array{
-        string = %string%`n`n`n%element%
+    length := array.Length()
+    i := 1
+    while (i <= length){
+        arrayElString := array[i]
+        string = %string%`n`n`n%arrayElString%
+        i++
+        notDivFromThous := Mod(i, 1000)
+        if (notDivFromThous = 0 && i <= length){
+            string := SubStr(string, 4)
+            %stringArrayName%.Push(string)
+            string := ""
+        }
     }
+
     string := SubStr(string, 4)
-    return string
+    %stringArrayName%.Push(string)
+    string := ""
+
+    global hand_a1_string := %stringArrayName%
 }
