@@ -69,7 +69,7 @@ return
 ESC::
 	ExitApp
 return
-
+;test delte thsi message
 createInputFoldersIfNotExists(fileDir){
     if !FileExist(fileDir){
         FileCreateDir, %fileDir%
